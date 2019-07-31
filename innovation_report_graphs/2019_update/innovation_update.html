@@ -292,6 +292,46 @@ d3.json('gii_data_17_18_19.json', function(data) {
 
 
 
+ // // circle & text for hover
+ //  var hover = countries.append('g');
+ //  hover.append('circle')
+ //    //.attr('fill', red)
+ //    .attr('r', 3);
+ //  hover.append('text')
+ //    .attr('text-anchor', 'middle')
+ //    .attr('y', -10)
+ //    .style('font-size', 10)
+ //    .style('font-weight', 200);
+  
+ //  // append the rect for hover
+ //  countries.append('rect')
+ //    .attr('width', width)
+ //    .attr('height', height)
+ //    .attr('opacity', 0)
+ //    .on('mousemove', mouseover);
+  
+ //  function mouseover(d) {
+ //    var [x, y] = d3.mouse(this);
+ //    var year = Math.round(xScale.invert(x));
+    
+ //    dispatch.call('hover', this, year);
+ //  }
+ 
+ //  dispatch.on('hover.dot', function(year) {
+ //    hover.datum(d => {
+ //      var y = d.values.find(d => d.year === year);
+ //      return {
+ //        last: y,
+ //        values: d.values,
+ //      }
+ //    }).attr('transform', d =>
+ //            'translate(' + [xScale(d.last.year), yScale(d.last.value)] + ')');
+    
+ //    hover.select('text')
+ //      .text(d => d3.format('.1f')(d.last.value));
+ //  });
+  
+  
 
 function wrap(text, width) {
   text.each(function() {
