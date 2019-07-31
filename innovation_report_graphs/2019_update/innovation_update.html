@@ -201,8 +201,8 @@ d3.json('gii_data_17_18_19.json', function(data) {
 
 
   catGroup.append("h4")
-      .text(function(d) { return d.key; })
-      .style('margin-left', '100px');
+      .text(function(d) { return d.key; });
+     // .style('margin-left', '100px');
 
   var indicators = catGroup.selectAll('.indicators')
     .data(function(d) { return d.values; })
