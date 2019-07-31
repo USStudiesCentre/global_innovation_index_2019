@@ -1,0 +1,61 @@
+---
+title: "Innovation Report with 2017-2019 data"
+author: "Zoe Meers"
+date: "30/07/2019"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+library(tidyverse)
+```
+
+
+```{r}
+gii_2019 <- read_csv(here::here("2019_update/R/july_2019_analysis/raw_data/2019_data.csv")) %>% 
+    select("level" = X1, 
+           "indicators" = X2, 
+            "Australia" = "Australia_1", 
+            "USA" = "United States of America (the)_1") %>% 
+    slice(10:117) %>% 
+    mutate(category = case_when(
+        str_detect(level, "[.]") ~ NA_character_,
+        TRUE ~ paste(indicators)
+    )) %>% 
+    fill(category, .direction = "down") %>% 
+    gather(country, value, -c(level, indicators, category)) %>% 
+    filter(indicators!=category) %>% 
+    mutate(year = 2019) %>% 
+    select(-level) %>% 
+    select(indicators, year, category, country, value) %>% 
+    mutate(value = as.numeric(value))
+```
+
+
+```{r}
+gii_2018_2017 <- read_csv(here::here("2019_update/R/july_2019_analysis/clean_data/gii_2017_2018.csv")) %>% 
+    filter(indicators != category) %>% 
+    select(-c(difference, definition, url, source)) %>% 
+    rename("Australia" = "australia", 
+           "USA" = "usa") %>% 
+    gather(country, value, -c(year, indicators, category)) %>% 
+    select(indicators, year, category, country, value)
+```
+
+```{r}
+
+gii_data_check <- bind_rows(gii_2018_2017, gii_2019) %>% 
+    arrange(year) %>% 
+    group_by(indicators) %>% 
+    summarise(n = n()) %>% 
+    filter(n == 6)
+
+
+
+gii_data <- bind_rows(gii_2018_2017, gii_2019) %>% 
+    arrange(year) %>% 
+    filter(indicators %in% gii_data_check$indicators)
+jsonlite::write_json(gii_data, here::here("2019_update/R/july_2019_analysis/clean_data/gii_data_17_18_19.json"))
+```
+
+
